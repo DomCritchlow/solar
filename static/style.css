@@ -1,0 +1,247 @@
+@font-face {
+    font-family: 'Bitmap';
+    src: local('Courier New'), local('Courier'), local('monospace');
+}
+
+:root {
+    --bg: #000;
+    --fg: #fff;
+    --grid: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Bitmap', 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    overflow-x: hidden;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    border-bottom: 2px solid var(--fg);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    letter-spacing: 8px;
+    font-weight: normal;
+}
+
+.status {
+    display: flex;
+    gap: 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status-value {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.sun-container {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#sunCanvas {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--fg);
+    cursor: crosshair;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.control-group {
+    border: 1px solid var(--fg);
+    padding: 20px;
+}
+
+.control-title {
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--grid);
+}
+
+.toggle-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.toggle {
+    flex: 1;
+    padding: 10px;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--fg);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 2px;
+    transition: all 0.1s;
+}
+
+.toggle.active {
+    background: var(--fg);
+    color: var(--bg);
+}
+
+.toggle:hover:not(.active) {
+    background: #222;
+}
+
+.slider-container {
+    margin-bottom: 15px;
+}
+
+.slider-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 2px;
+    background: var(--fg);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--fg);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--fg);
+    cursor: pointer;
+    border: none;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 2px solid var(--fg);
+}
+
+.data-card {
+    border: 1px solid var(--grid);
+    padding: 15px;
+}
+
+.data-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
+.data-value {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.data-unit {
+    font-size: 10px;
+    opacity: 0.5;
+    margin-left: 5px;
+}
+
+.region-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--grid);
+    padding: 10px;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.region-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+}
+
+.region-item:last-child {
+    border-bottom: none;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+}

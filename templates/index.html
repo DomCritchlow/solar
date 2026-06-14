@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLAR MONITOR</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>SOLAR MONITOR</h1>
+                <div class="status">
+                    <div class="status-item">
+                        <span>UTC</span>
+                        <span class="status-value" id="utc-time">00:00:00</span>
+                    </div>
+                    <div class="status-item">
+                        <span>REGIONS</span>
+                        <span class="status-value" id="region-count">{{ data.active_region_count or 0 }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>STATUS</span>
+                        <span class="status-value pulse" id="status">ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <div class="sun-container">
+                <canvas id="sunCanvas"></canvas>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <div class="control-title">VISUALIZATION</div>
+                    <div class="toggle-group">
+                        <button class="toggle active" data-mode="bit">BIT</button>
+                        <button class="toggle" data-mode="linear">LINEAR</button>
+                        <button class="toggle" data-mode="contour">CONTOUR</button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>GRID RESOLUTION</span>
+                            <span id="grid-value">16</span>
+                        </div>
+                        <input type="range" id="grid-slider" min="8" max="32" value="16" step="8">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-title">TIME CONTROL</div>
+                    <div class="toggle-group">
+                        <button class="toggle active" data-time="live">LIVE</button>
+                        <button class="toggle" data-time="pause">PAUSE</button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>TIME OFFSET</span>
+                            <span id="time-value">0h</span>
+                        </div>
+                        <input type="range" id="time-slider" min="-168" max="0" value="0">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-title">ACTIVE REGIONS</div>
+                    <div class="region-list" id="region-list">
+                        {% for region in data.regions %}
+                        <div class="region-item">
+                            <span>AR{{ region.noaa_number }}</span>
+                            <span>{{ region.area }} MSH</span>
+                        </div>
+                        {% else %}
+                        <div style="opacity: 0.5">No active regions</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-grid">
+            <div class="data-card">
+                <div class="data-title">SOLAR FLUX</div>
+                <div class="data-value">
+                    <span id="solar-flux">{{ data.solar_flux or '---' }}</span>
+                    <span class="data-unit">SFU</span>
+                </div>
+            </div>
+            <div class="data-card">
+                <div class="data-title">X-RAY FLUX</div>
+                <div class="data-value">
+                    <span id="xray-flux">{{ data.xray_class or '---' }}</span>
+                    <span class="data-unit"></span>
+                </div>
+            </div>
+            <div class="data-card">
+                <div class="data-title">SOLAR WIND</div>
+                <div class="data-value">
+                    <span id="solar-wind">{% if data.solar_wind_speed %}{{ data.solar_wind_speed|round|int }}{% else %}---{% endif %}</span>
+                    <span class="data-unit">KM/S</span>
+                </div>
+            </div>
+            <div class="data-card">
+                <div class="data-title">KP INDEX</div>
+                <div class="data-value">
+                    <span id="kp-index">{{ data.kp_index if data.kp_index is not none else '-' }}</span>
+                    <span class="data-unit"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
